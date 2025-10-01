@@ -15,7 +15,7 @@ on:
     tags: ['v*.*.*']
 jobs:
   release:
-    uses: rocajuanma/simple-release/.github/workflows/reusable-release.yml@v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
     with:
       build-artifacts: 'dist/* install.sh'  # Your build outputs
     secrets:
@@ -33,7 +33,7 @@ on:
     types: [published]
 jobs:
   update-changelog:
-    uses: rocajuanma/simple-release/.github/workflows/reusable-post-release-changelog.yml@v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@v1.0.0
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -90,7 +90,7 @@ In your release workflow, add your build process in the **BUILD EXTENSION POINT*
 
 ## Files
 
-- `.github/workflows/release.yml` - Release workflow
-- `.github/workflows/post-release-changelog.yml` - Changelog update workflow  
+- `.github/workflows/` - Local workflows (copy to your repo)
+- `workflows/` - Reusable workflows (reference from other repos)
 - `scripts/update-changelog.py` - Changelog update script
 - `examples/` - Usage examples

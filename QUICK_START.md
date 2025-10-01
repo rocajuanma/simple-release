@@ -27,7 +27,7 @@ on:
 
 jobs:
   release:
-    uses: rocajuanma/simple-release/.github/workflows/reusable-release.yml@v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
     secrets:
       RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -45,7 +45,7 @@ on:
 
 jobs:
   update-changelog:
-    uses: rocajuanma/simple-release/.github/workflows/reusable-post-release-changelog.yml@v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@v1.0.0
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -103,7 +103,7 @@ The workflows include a **BUILD EXTENSION POINT** where you can add your build p
 ```yaml
 jobs:
   release:
-    uses: rocajuanma/simple-release/.github/workflows/reusable-release.yml@v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
     with:
       changelog-path: 'docs/CHANGELOG.md'
       main-package: './cmd/myapp'
