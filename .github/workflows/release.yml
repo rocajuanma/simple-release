@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v1.2.0
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all history for changelog generation
+
+    - name: Get version from tag
+      id: version
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          VERSION=${GITHUB_REF#refs/tags/}
+        else
+          VERSION="development"
+        fi
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        echo "Release version: $VERSION"
+
+    # =============================================================================
+    # BUILD EXTENSION POINT
+    # =============================================================================
+    # Add your build steps here for your specific project needs:
+    # - Build binaries, executables, or packages
+    # - Run tests
+    # - Generate documentation
+    # - Create distribution files
+    # 
+    # Example for Go projects:
+    # - name: Set up Go
+    #   uses: actions/setup-go@v4
+    #   with:
+    #     go-version: '1.21'
+    # 
+    # - name: Build binaries
+    #   run: |
+    #     mkdir -p dist
+    #     PROJECT_NAME=$(grep '^module ' go.mod | awk '{print $2}' | sed 's/.*\///')
+    #     GOOS=darwin GOARCH=amd64 go build -o dist/${PROJECT_NAME}-darwin-amd64 ./main.go
+    #     GOOS=darwin GOARCH=arm64 go build -o dist/${PROJECT_NAME}-darwin-arm64 ./main.go
+    #     GOOS=linux GOARCH=amd64 go build -o dist/${PROJECT_NAME}-linux-amd64 ./main.go
+    #     GOOS=linux GOARCH=arm64 go build -o dist/${PROJECT_NAME}-linux-arm64 ./main.go
+    #     cd dist && shasum -a 256 * > checksums.txt
+    # =============================================================================
+
+    - name: Extract release notes from changelog
+      id: release_notes
+      run: |
+        CHANGELOG_PATH="CHANGELOG.md"
+        
+        if [ ! -f "$CHANGELOG_PATH" ]; then
+          echo "No changelog found at $CHANGELOG_PATH, creating basic release notes"
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "## 🎉 Release ${{ steps.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "This release includes various improvements and bug fixes." >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+        
+        # Extract content between [Unreleased] and the next version section
+        awk '/^## \[Unreleased\]/{flag=1; next} /^## \[.*\]/{flag=0} flag' "$CHANGELOG_PATH" > temp_release_notes.md
+        
+        # Remove empty lines at the beginning and end, but preserve internal structure
+        sed '/./,$!d' temp_release_notes.md > release_notes_content.md
+        
+        # Get project name
+        PROJECT_NAME=$(grep '^module ' go.mod | awk '{print $2}' | sed 's/.*\///' || echo "${GITHUB_REPOSITORY##*/}")
+        
+        # Create formatted release notes with header
+        echo "## 🎉 $PROJECT_NAME ${{ steps.version.outputs.VERSION }}" > formatted_release_notes.md
+        echo "" >> formatted_release_notes.md
+        
+        # Add the changelog content
+        cat release_notes_content.md >> formatted_release_notes.md
+        
+        # Add installation section if install script exists
+        if [ -f "install.sh" ]; then
+          echo "" >> formatted_release_notes.md
+          echo "### 🚀 Quick Install" >> formatted_release_notes.md
+          echo '```bash' >> formatted_release_notes.md
+          echo "curl -sSL https://github.com/${{ github.repository }}/releases/latest/download/install.sh | bash" >> formatted_release_notes.md
+          echo '```' >> formatted_release_notes.md
+        fi
+        
+        # Add download section
+        echo "" >> formatted_release_notes.md
+        echo "### 📦 Downloads" >> formatted_release_notes.md
+        echo "" >> formatted_release_notes.md
+        echo "Download the latest release from the [releases page](https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.VERSION }})." >> formatted_release_notes.md
+        
+        # Set as output using the multiline format
+        echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+        cat formatted_release_notes.md >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        
+        # Debug: show what was extracted
+        echo "=== Extracted Release Notes ==="
+        cat formatted_release_notes.md
+        echo "==============================="
+
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.version.outputs.VERSION }}
+        name: ${{ steps.version.outputs.VERSION }}
+        body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+        files: |
+          # Add your build artifacts here
+          # Examples:
+          # dist/*
+          # build/*
+          # *.tar.gz
+          # *.zip
+          # install.sh
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
