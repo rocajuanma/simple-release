@@ -11,7 +11,7 @@ on:
 
 jobs:
   release:
-    uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-release.yml@latest
     with:
       changelog-path: 'CHANGELOG.md'        # Optional: Changelog path (default: CHANGELOG.md)
       release-files: ''                     # Optional: Additional files to include (empty for no files)
