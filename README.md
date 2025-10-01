@@ -34,6 +34,8 @@ on:
 jobs:
   update-changelog:
     uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@v1.0.0
+    with:
+      simple-release-version: 'v1.0.0'  # Optional: Match your workflow tag
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -85,7 +87,7 @@ In your release workflow, add your build process in the **BUILD EXTENSION POINT*
 3. **Changelog updated** automatically
 4. **PR created** with changelog changes
 
-> **Note**: Always use versioned references (e.g., `@v1.0.0`) instead of `@main` to ensure you're using the latest stable version. The version is automatically detected from the workflow tag.
+> **Note**: Always use versioned references (e.g., `@v1.0.0`) instead of `@main` to ensure you're using the latest stable version. Set `simple-release-version` to match your workflow tag for consistency.
 
 
 ## Files
