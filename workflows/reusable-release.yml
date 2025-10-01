@@ -22,11 +22,11 @@ on:
         description: 'Custom build command (overrides default Go build)'
         required: false
         type: string
-      build-artifacts:
+      release-files:
         description: 'Additional files to include in release'
         required: false
         type: string
-        default: 'install.sh'
+        default: ''
     secrets:
       RELEASE_TOKEN:
         description: 'GitHub token for creating releases'
@@ -63,21 +63,8 @@ jobs:
     # - Generate documentation
     # - Create distribution files
     # 
-    # Example for Go projects:
-    # - name: Set up Go
-    #   uses: actions/setup-go@v4
-    #   with:
-    #     go-version: ${{ inputs.go-version }}
-    # 
-    # - name: Build binaries
-    #   run: |
-    #     mkdir -p dist
-    #     PROJECT_NAME=$(grep '^module ' go.mod | awk '{print $2}' | sed 's/.*\///')
-    #     GOOS=darwin GOARCH=amd64 go build -o dist/${PROJECT_NAME}-darwin-amd64 ${{ inputs.main-package }}
-    #     GOOS=darwin GOARCH=arm64 go build -o dist/${PROJECT_NAME}-darwin-arm64 ${{ inputs.main-package }}
-    #     GOOS=linux GOARCH=amd64 go build -o dist/${PROJECT_NAME}-linux-amd64 ${{ inputs.main-package }}
-    #     GOOS=linux GOARCH=arm64 go build -o dist/${PROJECT_NAME}-linux-arm64 ${{ inputs.main-package }}
-    #     cd dist && shasum -a 256 * > checksums.txt
+    # This workflow focuses on creating releases with changelog content.
+    # For build artifacts, add your build steps here or use a separate workflow.
     # =============================================================================
 
     - name: Extract release notes from changelog
@@ -111,14 +98,6 @@ jobs:
         # Add the changelog content
         cat release_notes_content.md >> formatted_release_notes.md
         
-        # Add installation section if install script exists
-        if [ -f "install.sh" ]; then
-          echo "" >> formatted_release_notes.md
-          echo "### 🚀 Quick Install" >> formatted_release_notes.md
-          echo '```bash' >> formatted_release_notes.md
-          echo "curl -sSL https://github.com/${{ github.repository }}/releases/latest/download/install.sh | bash" >> formatted_release_notes.md
-          echo '```' >> formatted_release_notes.md
-        fi
         
         # Add download section
         echo "" >> formatted_release_notes.md
@@ -142,15 +121,7 @@ jobs:
         tag_name: ${{ steps.version.outputs.VERSION }}
         name: ${{ steps.version.outputs.VERSION }}
         body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
-        files: |
-          # Add your build artifacts here
-          # Examples:
-          # dist/*
-          # build/*
-          # *.tar.gz
-          # *.zip
-          # install.sh
-          ${{ inputs.build-artifacts }}
+        files: ${{ inputs.release-files }}
         draft: false
         prerelease: false
       env:

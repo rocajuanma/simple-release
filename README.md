@@ -17,7 +17,7 @@ jobs:
   release:
     uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
     with:
-      build-artifacts: 'dist/* install.sh'  # Your build outputs
+      release-files: ''  # Optional: Additional files to include
     secrets:
       RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -61,7 +61,7 @@ Create `CHANGELOG.md`:
 ## Usage
 
 1. **Push a tag**: `git tag v1.0.0 && git push origin v1.0.0`
-2. **Release created** with your build artifacts
+2. **Release created** with changelog content
 3. **Changelog updated** automatically
 4. **PR created** with changelog changes
 
