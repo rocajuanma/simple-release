@@ -1,0 +1,19 @@
+# Example: How to use the reusable workflows in your repository
+# Copy this file to your repository as .github/workflows/release.yml
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v1.2.0
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  release:
+    uses: rocajuanma/simple-release/.github/workflows/reusable-release.yml@v1.0.0
+    with:
+      changelog-path: 'CHANGELOG.md'        # Optional: Changelog path (default: CHANGELOG.md)
+      build-artifacts: 'dist/* install.sh'  # Optional: Additional files to include
+    secrets:
+      RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
