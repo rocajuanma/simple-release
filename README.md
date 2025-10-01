@@ -18,7 +18,7 @@ jobs:
     # Use @latest for newest version, or pin to specific version like @v1.0.0
     uses: rocajuanma/simple-release/workflows/reusable-release.yml@latest
     with:
-      release-files: ''  # Optional: Additional files to include
+      changelog-path: 'CHANGELOG.md'  # Optional: Changelog path
     secrets:
       RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -63,7 +63,7 @@ Create `CHANGELOG.md`:
 ## Usage
 
 1. **Push a tag**: `git tag v1.0.0 && git push origin v1.0.0`
-2. **Release created** with changelog content
+2. **Release created** with changelog content (no files attached)
 3. **Changelog updated** automatically
 4. **PR created** with changelog changes
 
