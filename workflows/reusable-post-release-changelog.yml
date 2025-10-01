@@ -18,11 +18,6 @@ on:
         required: false
         type: string
         default: 'scripts/update-changelog.py'
-      simple-release-version:
-        description: 'Version of simple-release to use for script download'
-        required: false
-        type: string
-        default: 'v1.0.0'
     secrets:
       GITHUB_TOKEN:
         description: 'GitHub token for creating PRs'
@@ -68,9 +63,11 @@ jobs:
         # Check if script exists, if not download from this repo
         if [ ! -f "$SCRIPT_PATH" ]; then
           echo "Script not found at $SCRIPT_PATH, downloading from simple-release repo"
-          # Use the version specified by the user or default
-          SIMPLE_RELEASE_VERSION="${{ inputs.simple-release-version }}"
-          echo "Using simple-release version: $SIMPLE_RELEASE_VERSION"
+          # Automatically extract version from workflow tag (e.g., @v1.0.0 -> v1.0.0)
+          # This ensures the script version always matches the workflow version
+          # Extract version from GITHUB_REF (e.g., refs/tags/v1.0.0 -> v1.0.0)
+          SIMPLE_RELEASE_VERSION=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
+          echo "Using simple-release version: $SIMPLE_RELEASE_VERSION (derived from workflow tag)"
           curl -sSL https://raw.githubusercontent.com/rocajuanma/simple-release/$SIMPLE_RELEASE_VERSION/scripts/update-changelog.py -o update-changelog.py
           SCRIPT_PATH="./update-changelog.py"
         fi

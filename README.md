@@ -1,6 +1,6 @@
 # Simple Release
 
-Generic GitHub Actions workflows for automated releases and changelog management.
+Speed up your release process: create a tag to trigger a new GitHub release, automatically update your changelog with release details, and receive a pull request with the latest changelog changes.
 
 ## Quick Setup
 
@@ -34,8 +34,6 @@ on:
 jobs:
   update-changelog:
     uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@v1.0.0
-    with:
-      simple-release-version: 'v1.0.0'  # Optional: Match your workflow tag
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
 ```

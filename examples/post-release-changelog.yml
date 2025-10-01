@@ -13,6 +13,5 @@ jobs:
     with:
       changelog-path: 'CHANGELOG.md'        # Optional: Changelog path (default: CHANGELOG.md)
       base-branch: 'main'                   # Optional: Base branch for PR (default: main)
-      simple-release-version: 'v1.0.0'      # Optional: Simple-release version (default: v1.0.0)
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
