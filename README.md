@@ -58,28 +58,6 @@ Create `CHANGELOG.md`:
 - Initial release
 ```
 
-### 4. Add Build Steps
-
-In your release workflow, add your build process in the **BUILD EXTENSION POINT** section:
-
-```yaml
-# Example for Go projects (like palantir)
-- name: Set up Go
-  uses: actions/setup-go@v4
-  with:
-    go-version: '1.21'
-
-- name: Build binaries
-  run: |
-    mkdir -p dist
-    PROJECT_NAME=$(grep '^module ' go.mod | awk '{print $2}' | sed 's/.*\///')
-    GOOS=darwin GOARCH=amd64 go build -o dist/${PROJECT_NAME}-darwin-amd64 ./cmd/terminal
-    GOOS=darwin GOARCH=arm64 go build -o dist/${PROJECT_NAME}-darwin-arm64 ./cmd/terminal
-    GOOS=linux GOARCH=amd64 go build -o dist/${PROJECT_NAME}-linux-amd64 ./cmd/terminal
-    GOOS=linux GOARCH=arm64 go build -o dist/${PROJECT_NAME}-linux-arm64 ./cmd/terminal
-    cd dist && shasum -a 256 * > checksums.txt
-```
-
 ## Usage
 
 1. **Push a tag**: `git tag v1.0.0 && git push origin v1.0.0`
@@ -106,10 +84,3 @@ If the post-release workflow fails to create PRs:
 
 > **Note**: Always use versioned references (e.g., `@v1.0.0`) instead of `@main` to ensure you're using the latest stable version. Set `simple-release-version` to match your workflow tag for consistency.
 
-
-## Files
-
-- `.github/workflows/` - Local workflows (copy to your repo)
-- `workflows/` - Reusable workflows (reference from other repos)
-- `scripts/update-changelog.py` - Changelog update script
-- `examples/` - Usage examples
