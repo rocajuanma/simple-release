@@ -22,11 +22,6 @@ on:
         description: 'Custom build command (overrides default Go build)'
         required: false
         type: string
-      release-files:
-        description: 'Additional files to include in release'
-        required: false
-        type: string
-        default: ''
     secrets:
       RELEASE_TOKEN:
         description: 'GitHub token for creating releases'
@@ -121,7 +116,6 @@ jobs:
         tag_name: ${{ steps.version.outputs.VERSION }}
         name: ${{ steps.version.outputs.VERSION }}
         body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
-        files: ${{ inputs.release-files }}
         draft: false
         prerelease: false
       env:
