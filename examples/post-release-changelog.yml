@@ -9,7 +9,8 @@ on:
 
 jobs:
   update-changelog:
-    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@v1.0.0
+    # Use @latest for the newest version, or specify a version like @v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@latest
     with:
       changelog-path: 'CHANGELOG.md'        # Optional: Changelog path (default: CHANGELOG.md)
       base-branch: 'main'                   # Optional: Base branch for PR (default: main)

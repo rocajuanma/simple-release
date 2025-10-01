@@ -15,7 +15,8 @@ on:
     tags: ['v*.*.*']
 jobs:
   release:
-    uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
+    # Use @latest for newest version, or pin to specific version like @v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-release.yml@latest
     with:
       release-files: ''  # Optional: Additional files to include
     secrets:
@@ -33,7 +34,8 @@ on:
     types: [published]
 jobs:
   update-changelog:
-    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@v1.0.0
+    # Use @latest for newest version, or pin to specific version like @v1.0.0
+    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@latest
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
 ```
@@ -64,6 +66,29 @@ Create `CHANGELOG.md`:
 2. **Release created** with changelog content
 3. **Changelog updated** automatically
 4. **PR created** with changelog changes
+
+## Version Management
+
+### Using @latest (Recommended)
+- **Always gets the newest version** with latest fixes and features
+- **Automatic updates** when new versions are released
+- **Best for most users** who want the latest functionality
+
+```yaml
+uses: rocajuanma/simple-release/workflows/reusable-release.yml@latest
+```
+
+### Pinning to Specific Versions
+- **Use for production** where you need stability
+- **Prevents unexpected changes** from automatic updates
+- **Update manually** when you want new features
+
+```yaml
+uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
+```
+
+### Available Versions
+Check [releases page](https://github.com/rocajuanma/simple-release/releases) for all available versions.
 
 ## Required Permissions
 
