@@ -14,6 +14,6 @@ jobs:
     uses: rocajuanma/simple-release/workflows/reusable-release.yml@v1.0.0
     with:
       changelog-path: 'CHANGELOG.md'        # Optional: Changelog path (default: CHANGELOG.md)
-      build-artifacts: 'dist/* install.sh'  # Optional: Additional files to include
+      release-files: ''                     # Optional: Additional files to include (empty for no files)
     secrets:
       RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
