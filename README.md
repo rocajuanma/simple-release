@@ -37,8 +37,10 @@ jobs:
     with:
       simple-release-version: 'v1.0.0'  # Optional: Match your workflow tag
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
 ```
+
+> **Note**: The `GITHUB_TOKEN` is required for the post-release workflow to create pull requests and update the changelog. For some repository settings, you may need to create a Personal Access Token (PAT) with `repo` permissions and add it as a repository secret.
 
 ### 3. Create Changelog
 
@@ -86,6 +88,23 @@ In your release workflow, add your build process in the **BUILD EXTENSION POINT*
 2. **Release created** with your build artifacts
 3. **Changelog updated** automatically
 4. **PR created** with changelog changes
+
+## Required Permissions
+
+### GitHub Token Requirements
+- **`GITHUB_TOKEN`**: Automatically provided by GitHub Actions
+- **Permissions needed**: 
+  - `contents: write` (to update changelog)
+  - `pull-requests: write` (to create PR)
+  - `metadata: read` (to read repository info)
+- **Fallback option**: If default token fails, create a Personal Access Token (PAT) with `repo` scope and add as repository secret
+
+### Troubleshooting Token Issues
+If the post-release workflow fails to create PRs:
+1. **Create a PAT**: Go to GitHub Settings → Developer settings → Personal access tokens
+2. **Required scope**: Select `repo` (full repository access)
+3. **Add as secret**: Repository Settings → Secrets → Add `GITHUB_TOKEN` with your PAT
+4. **Test**: Push a new tag to verify the workflow works
 
 > **Note**: Always use versioned references (e.g., `@v1.0.0`) instead of `@main` to ensure you're using the latest stable version. Set `simple-release-version` to match your workflow tag for consistency.
 
