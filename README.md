@@ -16,7 +16,7 @@ on:
 jobs:
   release:
     # Use @latest for newest version, or pin to specific version like @v1.0.0
-    uses: rocajuanma/simple-release/workflows/reusable-release.yml@v0.5.0
+    uses: rocajuanma/simple-release/workflows/reusable-release.yml@latest
     with:
       changelog-path: 'CHANGELOG.md'  # Optional: Changelog path
     secrets:
@@ -30,12 +30,12 @@ Create `.github/workflows/post-release-changelog.yml`:
 ```yaml
 name: Post-Release Changelog Update
 on:
-  release:
-    types: [published]
+  repository_dispatch:
+    types: [release-published]
 jobs:
   update-changelog:
     # Use @latest for newest version, or pin to specific version like @v1.0.0
-    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@v0.5.0
+    uses: rocajuanma/simple-release/workflows/reusable-post-release-changelog.yml@latest
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
 ```
