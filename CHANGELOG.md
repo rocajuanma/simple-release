@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 ### Fixed
+- Reusable workflows relocated to the .github directory
 
 ## [0.10.0] - 2025-10-01
 
