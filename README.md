@@ -1,5 +1,8 @@
 # Simple Release
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub release](https://img.shields.io/github/release/rocajuanma/simple-release.svg)](https://github.com/rocajuanma/simple-release/releases)
+
 Speed up your release process: create a tag to trigger a new GitHub release, automatically update your changelog with release details, and receive a pull request with the latest changelog changes.
 
 ## Quick Setup
