@@ -22,6 +22,8 @@ on:
       GITHUB_TOKEN:
         description: 'GitHub token for creating PRs'
         required: true
+  repository_dispatch:
+    types: [release-published]
 
 jobs:
   update-changelog:
@@ -43,8 +45,12 @@ jobs:
     - name: Get release information
       id: release_info
       run: |
-        # Extract version from tag (remove 'v' prefix if present)
-        VERSION="${{ github.event.release.tag_name }}"
+        # Extract version from either repository dispatch or release event
+        if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+          VERSION="${{ github.event.client_payload.version }}"
+        else
+          VERSION="${{ github.event.release.tag_name }}"
+        fi
         VERSION_NUMBER="${VERSION#v}"
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT

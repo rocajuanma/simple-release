@@ -120,3 +120,10 @@ jobs:
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
+
+    - name: Trigger post-release workflow
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
+        event-type: release-published
+        client-payload: '{"version": "${{ steps.version.outputs.VERSION }}"}'
