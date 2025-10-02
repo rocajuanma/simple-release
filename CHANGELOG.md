@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic version detection from workflow tags
 - Generic, language-agnostic design
 - Single version management system
+- Repository dispatch trigger system for reliable post-release workflows
+- Enhanced reusable workflows with dual trigger support (workflow_call + repository_dispatch)
+- Improved version passing between release and post-release workflows
 
 ### Changed
 - Simplified version management by removing redundant parameters
@@ -27,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved user experience with cleaner examples
 - Auto-derive script version from workflow tag
 - Eliminated need for separate version parameters
+- Switched from release events to repository dispatch for post-release triggers
+- Removed build artifact functionality to focus on changelog-based releases
+- Consolidated examples into README.md for single source of truth
+- Enhanced workflow permissions for better reliability
 
 ### Fixed
 - Removed hardcoded version references in favor of dynamic detection
@@ -34,13 +41,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Streamlined configuration for easier adoption
 - Version sync issues between workflow and script
 - Redundant QUICK_START.md file
+- Post-release workflow not triggering after successful releases
+- File pattern matching errors causing "Too many retries" failures
+- Version passing issues in repository dispatch events
+- Workflow permissions causing 403 errors
+- Redundant examples directory maintenance burden
 
 ### Technical Details
 - **Workflows**: 4 total (2 local, 2 reusable)
 - **Scripts**: 1 Python script for changelog automation
-- **Documentation**: README, examples
+- **Documentation**: README.md
 - **Version Control**: Single version per workflow (auto-derived)
-- **Architecture**: Modular design with clear separation of concerns
+- **Architecture**: Modular design with repository dispatch triggers
+- **Trigger System**: Repository dispatch for reliable post-release execution
 
 ### Features
 - **Automated Releases**: Create GitHub releases with customizable build processes
