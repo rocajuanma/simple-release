@@ -27,8 +27,8 @@ jobs:
     - name: Get release information
       id: release_info
       run: |
-        # Extract version from tag (remove 'v' prefix if present)
-        VERSION="${{ github.event.release.tag_name }}"
+        # Extract version from repository dispatch payload
+        VERSION="${{ github.event.client_payload.version }}"
         VERSION_NUMBER="${VERSION#v}"
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT
