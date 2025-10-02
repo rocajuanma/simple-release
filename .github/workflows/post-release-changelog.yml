@@ -1,8 +1,8 @@
 name: Post-Release Changelog Update
 
 on:
-  release:
-    types: [published]  # Triggers after a release is successfully published
+  repository_dispatch:
+    types: [release-published]
 
 jobs:
   update-changelog:
