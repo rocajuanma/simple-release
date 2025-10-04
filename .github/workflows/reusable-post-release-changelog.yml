@@ -22,8 +22,6 @@ on:
       TOKEN:
         description: 'GitHub token for creating PRs'
         required: true
-  repository_dispatch:
-    types: [release-published]
 
 jobs:
   update-changelog:
