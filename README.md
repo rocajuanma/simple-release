@@ -18,8 +18,8 @@ on:
     tags: ['v*.*.*']
 jobs:
   release:
-    # Use @latest for newest version, or pin to specific version like @v1.0.0
-    uses: rocajuanma/simple-release/.github/workflows/reusable-release.yml@latest
+    # Use @main for newest version, or pin to specific version like @v1.0.0
+    uses: rocajuanma/simple-release/.github/workflows/reusable-release.yml@main
     with:
       changelog-path: 'CHANGELOG.md'  # Optional: Changelog path
     secrets:
@@ -37,13 +37,13 @@ on:
     types: [release-published]
 jobs:
   update-changelog:
-    # Use @latest for newest version, or pin to specific version like @v1.0.0
-    uses: rocajuanma/simple-release/workflows/.github/reusable-post-release-changelog.yml@latest
+    # Use @main for newest version, or pin to specific version like @v1.0.0
+    uses: rocajuanma/simple-release/.github/workflows/reusable-post-release-changelog.yml@main
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
 ```
 
-> **Note**: The `GITHUB_TOKEN` is required for the post-release workflow to create pull requests and update the changelog. For some repository settings, you may need to create a Personal Access Token (PAT) with `repo` permissions and add it as a repository secret.
+> **Note**: The `TOKEN` secret is required for the post-release workflow to create pull requests and update the changelog. You can pass your `GITHUB_TOKEN` as the `TOKEN` secret, or create a Personal Access Token (PAT) with `repo` permissions and add it as a repository secret.
 
 ### 3. Create Changelog
 
@@ -72,13 +72,13 @@ Create `CHANGELOG.md`:
 
 ## Version Management
 
-### Using @latest (Recommended)
+### Using @main (Recommended)
 - **Always gets the newest version** with latest fixes and features
-- **Automatic updates** when new versions are released
+- **Automatic updates** when new changes are pushed to main
 - **Best for most users** who want the latest functionality
 
 ```yaml
-uses: rocajuanma/simple-release/workflows/reusable-release.yml@latest
+uses: rocajuanma/simple-release/.github/workflows/reusable-release.yml@main
 ```
 
 ### Pinning to Specific Versions
@@ -110,5 +110,5 @@ If the post-release workflow fails to create PRs:
 3. **Add as secret**: Repository Settings → Secrets → Add `GITHUB_TOKEN` with your PAT
 4. **Test**: Push a new tag to verify the workflow works
 
-> **Note**: Always use versioned references (e.g., `@v1.0.0`) instead of `@main` to ensure you're using the latest stable version. Set `simple-release-version` to match your workflow tag for consistency.
+> **Note**: For production use, consider pinning to specific version tags (e.g., `@v1.0.0`) instead of `@main` to ensure you're using a stable, tested version.
 
