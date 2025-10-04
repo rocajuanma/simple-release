@@ -23,7 +23,7 @@ jobs:
     with:
       changelog-path: 'CHANGELOG.md'  # Optional: Changelog path
     secrets:
-      RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Optional: For creating releases
 ```
 
 ### 2. Add Post-Release Workflow
@@ -43,7 +43,11 @@ jobs:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
 ```
 
-> **Note**: The `TOKEN` secret is required for the post-release workflow to create pull requests and update the changelog. You can pass your `GITHUB_TOKEN` as the `TOKEN` secret, or create a Personal Access Token (PAT) with `repo` permissions and add it as a repository secret.
+> **Note**: Each workflow uses different secret names:
+> - **Release workflow**: Uses `RELEASE_TOKEN` (optional) for creating releases
+> - **Post-release workflow**: Uses `TOKEN` (required) for creating PRs and updating changelog
+> 
+> You can pass your `GITHUB_TOKEN` to both, or create a Personal Access Token (PAT) with `repo` permissions and add it as a repository secret.
 
 ### 3. Create Changelog
 
@@ -62,6 +66,8 @@ Create `CHANGELOG.md`:
 ### Added
 - Initial release
 ```
+
+> **Note**: As long as you keep your `CHANGELOG.md` up to date after each change, this workflow > will automatically move all items under "Unreleased" into a new release section whenever you > push a new tag.
 
 ## Usage
 
