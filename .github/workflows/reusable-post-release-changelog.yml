@@ -67,13 +67,15 @@ jobs:
         # Check if script exists, if not download from this repo
         if [ ! -f "$SCRIPT_PATH" ]; then
           echo "Script not found at $SCRIPT_PATH, downloading from simple-release repo"
+          # Create temporary directory for script
+          TEMP_DIR=$(mktemp -d)
           # Automatically extract version from workflow tag (e.g., @v1.0.0 -> v1.0.0)
           # This ensures the script version always matches the workflow version
           # Extract version from GITHUB_REF (e.g., refs/tags/v1.0.0 -> v1.0.0)
           SIMPLE_RELEASE_VERSION=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
           echo "Using simple-release version: $SIMPLE_RELEASE_VERSION (derived from workflow tag)"
-          curl -sSL https://raw.githubusercontent.com/rocajuanma/simple-release/$SIMPLE_RELEASE_VERSION/scripts/update-changelog.py -o update-changelog.py
-          SCRIPT_PATH="./update-changelog.py"
+          curl -sSL https://raw.githubusercontent.com/rocajuanma/simple-release/$SIMPLE_RELEASE_VERSION/scripts/update-changelog.py -o "$TEMP_DIR/update-changelog.py"
+          SCRIPT_PATH="$TEMP_DIR/update-changelog.py"
         fi
         
         python3 "$SCRIPT_PATH" \
