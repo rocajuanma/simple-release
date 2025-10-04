@@ -18,14 +18,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+- Improved README layout by consolidating logo, badges, and description into single centered block
+
+### Fixed
+
+## [0.15.0] - 2025-10-03
+
+### Added
+
+### Changed
 
 ### Fixed
 - Fixed post-release workflow committing downloaded `update-changelog.py` script to target repositories
 - Improved script handling by using temporary directory instead of working directory for downloaded scripts
 - Enhanced workflow reliability with automatic cleanup of temporary files
 
-### Changed
-- Improved README layout by consolidating logo, badges, and description into single centered block
 
 ## [0.14.0] - 2025-10-03
 
