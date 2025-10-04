@@ -40,10 +40,10 @@ jobs:
     # Use @main for newest version, or pin to specific version like @v1.0.0
     uses: rocajuanma/simple-release/.github/workflows/reusable-post-release-changelog.yml@main
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required: Creates PR and updates changelog
 ```
 
-> **Note**: The `GITHUB_TOKEN` is required for the post-release workflow to create pull requests and update the changelog. For some repository settings, you may need to create a Personal Access Token (PAT) with `repo` permissions and add it as a repository secret.
+> **Note**: The `TOKEN` secret is required for the post-release workflow to create pull requests and update the changelog. You can pass your `GITHUB_TOKEN` as the `TOKEN` secret, or create a Personal Access Token (PAT) with `repo` permissions and add it as a repository secret.
 
 ### 3. Create Changelog
 
