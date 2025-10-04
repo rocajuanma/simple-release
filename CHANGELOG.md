@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 ### Fixed
+
+## [0.12.0] - 2025-10-03
+
+### Added
+
+### Changed
+
+### Fixed
 - Fixed invalid `@latest` reference in README examples (GitHub Actions doesn't support `@latest`)
 - Corrected workflow paths in documentation examples
 - Updated all references to use valid GitHub Actions syntax (`@main` instead of `@latest`)
