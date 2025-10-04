@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 ### Fixed
+
+## [1.0.0] - 2025-10-03
+
+### Added
+
+### Changed
+
+### Fixed
 - Fixed post-release workflow committing downloaded `update-changelog.py` script to target repositories
 - Improved script handling by using temporary directory instead of working directory for downloaded scripts
 - Enhanced workflow reliability with automatic cleanup of temporary files
