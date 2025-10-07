@@ -1,10 +1,14 @@
 <div align="center">
-  <img src="assets/simple-release.png" alt="Simple Release Logo" width="200">
-  
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![GitHub release](https://img.shields.io/github/release/rocajuanma/simple-release.svg)](https://github.com/rocajuanma/simple-release/releases)
+  <img src="assets/simple-release2.0.png" alt="Simple Release Logo" width="200">
+  <h1>Simple Release</h1>
+</div>
 
-  Speed up your release process: create a tag to trigger a new GitHub release, automatically update your changelog with release details, and receive a pull request with the latest changelog changes.
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub release](https://img.shields.io/github/release/rocajuanma/simple-release.svg)](https://github.com/rocajuanma/simple-release/releases)
+
+Speed up your release process: create a tag to trigger a new GitHub release, automatically update your changelog with release details, and receive a pull request with the latest changelog changes.
 </div>
 
 ## Quick Setup
